@@ -1,5 +1,5 @@
 # Render — web service GRATIS, sempre acceso (scheduler interno + self-ping).
-# Il job gira venerdì 07:00 (Europe/Rome) via node-cron dentro server.mjs.
+# Il job gira venerdì 11:00 (Europe/Rome) = 10:00 Irlanda, via node-cron dentro server.mjs.
 # NON invia: aggiorna solo il template in GHL; Giovanni duplica la campagna e invia a mano.
 services:
   - type: web

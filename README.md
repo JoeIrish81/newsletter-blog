@@ -42,7 +42,7 @@ mantiene aggiornato il template; la **campagna la crea/invia Giovanni** dall'edi
 
 ## Deploy su Render (gratis, web service sempre acceso)
 `render.yaml` definisce un **web service** (`server.mjs`) con:
-- **scheduler interno** (node-cron): venerdì **07:00 Europe/Rome** → `newsletter.mjs --auto`
+- **scheduler interno** (node-cron): venerdì **11:00 Europe/Rome** (= 10:00 Irlanda) → `newsletter.mjs --auto`
 - **self-ping** ogni 14 min (usa `RENDER_EXTERNAL_URL`) per non farlo dormire sul piano free
 - `/healthz` (health check), `/` (stato ultimo run), `/run?token=RUN_TOKEN` (trigger manuale)
 

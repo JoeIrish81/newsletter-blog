@@ -34,7 +34,7 @@ app.get("/healthz", (_req, res) => res.status(200).send("ok"));
 
 app.get("/", (_req, res) => {
   res.type("html").send(`<h3>Newsletter blog → GHL</h3>
-    <p>Scheduler attivo: venerdì 07:00 (Europe/Rome).</p>
+    <p>Scheduler attivo: venerdì 11:00 (Europe/Rome) = 10:00 Irlanda.</p>
     <p>Ultimo run: ${lastRun ? `${lastRun.at} — ${lastRun.ok ? "OK" : "ERRORE"}` : "mai"}</p>
     <pre style="white-space:pre-wrap;background:#f4f4f4;padding:12px;border-radius:8px;">${(lastRun?.output || "").replace(/</g, "&lt;")}</pre>`);
 });
@@ -48,8 +48,8 @@ app.get("/run", async (req, res) => {
   runAuto();
 });
 
-// --- scheduler: venerdì mattina, ora italiana ---
-cron.schedule("0 7 * * 5", () => runAuto(), { timezone: "Europe/Rome" });
+// --- scheduler: venerdì 11:00 Europe/Rome (= 10:00 Irlanda) ---
+cron.schedule("0 11 * * 5", () => runAuto(), { timezone: "Europe/Rome" });
 
 // --- self-ping: evita lo spin-down del piano free (Render dorme dopo ~15 min di idle) ---
 const SELF = process.env.RENDER_EXTERNAL_URL;
@@ -59,4 +59,4 @@ if (SELF) {
   }, 14 * 60 * 1000); // ogni 14 minuti
 }
 
-app.listen(PORT, () => console.log(`Server in ascolto su :${PORT} — scheduler venerdì 07:00 Europe/Rome`));
+app.listen(PORT, () => console.log(`Server in ascolto su :${PORT} — scheduler venerdì 11:00 Europe/Rome (10:00 Irlanda)`));
