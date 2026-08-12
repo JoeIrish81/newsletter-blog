@@ -1,0 +1,21 @@
+{
+  "name": "newsletter-blog",
+  "version": "1.0.0",
+  "description": "Newsletter settimanale automatica dal blog di giovanniperilli.com verso GoHighLevel",
+  "type": "module",
+  "main": "newsletter.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "build": "node newsletter.mjs",
+    "auto": "node newsletter.mjs --auto",
+    "probe": "node newsletter.mjs --probe"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.116.0",
+    "express": "^5.2.1",
+    "node-cron": "^4.6.0"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "eyebrow": "La settimana in digital",
+  "greeting": "Ciao {{contact.first_name}},",
+  "whyBoxHtml": "\n                  <p style=\"margin:0 0 10px 0;font-weight:bold;color:#1a1a1a;\">Perché dovrebbero interessarti:</p>\n                  <p style=\"margin:0 0 8px 0;\">👉 <strong>Se fai digital in prima persona</strong> — per restare in regola e lavorare meglio, senza brutte sorprese.</p>\n                  <p style=\"margin:0 0 8px 0;\">👉 <strong>Se deleghi alla tua agenzia</strong> — per fare le domande giuste a chi lavora per te.</p>\n                  <p style=\"margin:0;\">👉 <strong>Se sei curioso di come evolve il digital marketing</strong> — per capire dove sta andando, prima degli altri.</p>",
+  "closingHtml": "<p style=\"margin:0 0 14px 0;\">Se uno di questi temi ti tocca da vicino, rispondi pure a questa mail: leggo tutto.</p>\n            <p style=\"margin:0;\">Alla prossima,<br><strong>Giovanni</strong></p>",
+  "introHtml": "<p style=\"margin:0 0 14px 0;\">Come sempre, ti faccio il punto della settimana.</p>\n            <p style=\"margin:0;\">Si parla molto di <strong>AI Act</strong> &mdash; cosa è scattato davvero e cosa devi dichiarare quando pubblichi contenuti generati &mdash; di come l'intelligenza artificiale <strong>amplifica chi sa già</strong> e penalizza chi parte da zero, e di un paradosso del marketing: puntare troppo al risultato è il modo più sicuro per non ottenerlo. In mezzo, anche una valutazione pratica sull'iPhone 18 Pro. 6 articoli, te li ho messi in fila dal più recente.</p>",
+  "articles": [
+    {
+      "url": "https://giovanniperilli.com/blog/lintelligenza-artificiale-amplifica-quello-che-sai-e-limita-i-junior/",
+      "imageUrl": "https://giovanniperilli.com/wp-content/uploads/2026/08/Lintelligenza-artificiale-768x432.png",
+      "imageAlt": "L’intelligenza artificiale amplifica quello che sai e limita i junior",
+      "date": "11 AGOSTO 2026",
+      "title": "L’intelligenza artificiale amplifica quello che sai e limita i junior",
+      "blurb": "L'AI non livella le competenze: le <strong>amplifica</strong>. Chi ha esperienza riconosce una risposta sbagliata in tre secondi, chi non ce l'ha la pubblica. Se stai costruendo un team, questo cambia il modo in cui formi le persone."
+    },
+    {
+      "url": "https://giovanniperilli.com/blog/ai-act-obblighi-imprese-2026/",
+      "imageUrl": "https://giovanniperilli.com/wp-content/uploads/2026/08/AI-act.-cose-davvero-scattato-768x432.png",
+      "imageAlt": "AI Act: cosa è davvero scattato il 2 agosto 2026 e cosa rischi",
+      "date": "10 AGOSTO 2026",
+      "title": "AI Act: cosa è davvero scattato il 2 agosto 2026 e cosa rischi",
+      "blurb": "La storia del <em>rinvio</em> è diventata l'alibi perfetto per non fare nulla. Ma il rinvio non riguarda gli obblighi che toccano la tua azienda: qui trovi cosa è già in vigore e <strong>cosa rischi concretamente</strong>."
+    },
+    {
+      "url": "https://giovanniperilli.com/blog/per-fare-centro-nel-marketing-bisogna-smettere-di-guardare-il-centro/",
+      "imageUrl": "https://giovanniperilli.com/wp-content/uploads/2026/08/Per-fare-centro-nel-marketing-768x432.jpg",
+      "imageAlt": "Per fare centro nel marketing bisogna smettere di guardare il centro",
+      "date": "09 AGOSTO 2026",
+      "title": "Per fare centro nel marketing bisogna smettere di guardare il centro",
+      "blurb": "Più fissi la conversione, più la allontani. Il punto è che il risultato arriva lavorando su <strong>quello che lo produce</strong>, non ossessionandosi sul numero finale. Vale per le campagne come per i team."
+    },
+    {
+      "url": "https://giovanniperilli.com/blog/ai-act-e-marketing-quando-devi-dichiarare-un-contenuto-ai/",
+      "imageUrl": "https://giovanniperilli.com/wp-content/uploads/2026/08/ChatGPT-Image-9-ago-2026-09_02_51-768x432.png",
+      "imageAlt": "AI Act e marketing: quando devi dichiarare un contenuto AI",
+      "date": "09 AGOSTO 2026",
+      "title": "AI Act e marketing: quando devi dichiarare un contenuto AI",
+      "blurb": "Generare contenuti con l'AI è legittimo, far credere che siano altro no. Qui la linea tra <strong>creare e ingannare</strong>, e i casi in cui la dichiarazione è un obbligo e non una scelta di stile."
+    },
+    {
+      "url": "https://giovanniperilli.com/blog/iphone-18-pro-conviene-upgrade/",
+      "imageUrl": "https://giovanniperilli.com/wp-content/uploads/2026/08/Iphone-18-pro-blog-768x432.png",
+      "imageAlt": "iPhone 18 Pro: cosa cambia davvero e a chi conviene",
+      "date": "07 AGOSTO 2026",
+      "title": "iPhone 18 Pro: cosa cambia davvero e a chi conviene",
+      "blurb": "I leak sono diventati listini, quindi si può ragionare. Cosa cambia davvero e, soprattutto, <strong>a chi conviene cambiare</strong> e a chi no: se usi il telefono per lavorare, la risposta non è automatica."
+    },
+    {
+      "url": "https://giovanniperilli.com/blog/ai-act-2-agosto-2026/",
+      "imageUrl": "https://giovanniperilli.com/wp-content/uploads/2026/08/AI-act-blog-768x432.png",
+      "imageAlt": "AI Act 2 agosto 2026: cosa è scattato davvero (e cosa è slittato)",
+      "date": "06 AGOSTO 2026",
+      "title": "AI Act 2 agosto 2026: cosa è scattato davvero (e cosa è slittato)",
+      "blurb": "Per due anni ci hanno raccontato il giorno del giudizio. Poi la data è passata. Qui la versione senza allarmismi: <strong>cosa è scattato</strong> e cosa è slittato per davvero."
+    }
+  ]
+}

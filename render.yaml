@@ -1,0 +1,24 @@
+# Render — web service GRATIS, sempre acceso (scheduler interno + self-ping).
+# Il job gira venerdì 07:00 (Europe/Rome) via node-cron dentro server.mjs.
+# NON invia: aggiorna solo il template in GHL; Giovanni duplica la campagna e invia a mano.
+services:
+  - type: web
+    name: newsletter-blog
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.mjs
+    healthCheckPath: /healthz
+    envVars:
+      - key: GHL_EMAIL_TOKEN      # Private Integration Token (pit-…), scope emails/builder
+        sync: false               # segreti: da inserire nel dashboard Render
+      - key: GHL_USER_ID          # user id GHL (updatedBy)
+        sync: false
+      - key: ANTHROPIC_API_KEY    # per la copy con Claude
+        sync: false
+      - key: RUN_TOKEN            # stringa a caso: protegge il trigger manuale /run?token=...
+        sync: false
+      - key: GHL_LOCATION_ID
+        value: 65dgBotw4hBLniJ5BTL2
+      - key: CLAUDE_MODEL
+        value: claude-opus-5
