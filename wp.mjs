@@ -29,12 +29,34 @@ function pickImage(post) {
  * @param {{afterISO:string, beforeISO:string, max?:number}} opts
  * @returns {Promise<Array<{slug,url,imageUrl,imageAlt,date,dateISO,title,blurb,categories}>>}
  */
+// Headers "da browser": alcuni host bloccano/servono pagine HTML alternative alle richieste
+// senza User-Agent riconoscibile (tipico dei server cloud come Render). Con un UA da browser
+// vero la richiesta passa come farebbe un visitatore normale.
+const BROWSER_HEADERS = {
+  Accept: "application/json",
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+};
+
+async function fetchJson(url, { retries = 1 } = {}) {
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(url, { headers: BROWSER_HEADERS });
+    const raw = await res.text();
+    const contentType = res.headers.get("content-type") || "";
+    if (res.ok && contentType.includes("json")) {
+      return JSON.parse(raw);
+    }
+    if (attempt >= retries) {
+      throw new Error(`WP API ${res.status} (content-type "${contentType}"): ${raw.slice(0, 200)}`);
+    }
+    // probabile blocco/challenge momentaneo: un breve retry spesso basta
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+}
+
 export async function fetchArticles({ afterISO, beforeISO, max = 20 }) {
   const url = `${SITE}/wp-json/wp/v2/posts?per_page=50&_embed=1&orderby=date&order=desc`
     + `&after=${encodeURIComponent(afterISO)}&before=${encodeURIComponent(beforeISO)}`;
-  const res = await fetch(url, { headers: { Accept: "application/json" } });
-  if (!res.ok) throw new Error(`WP API ${res.status}: ${await res.text().catch(() => "")}`);
-  const posts = await res.json();
+  const posts = await fetchJson(url, { retries: 2 });
 
   return posts
     .filter((p) => !p.link.includes("/en/"))          // solo italiano
