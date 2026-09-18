@@ -34,29 +34,55 @@ function pickImage(post) {
 // vero la richiesta passa come farebbe un visitatore normale.
 const BROWSER_HEADERS = {
   Accept: "application/json",
+  "Accept-Language": "it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7",
   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+  Referer: `${SITE}/`,
 };
 
-async function fetchJson(url, { retries = 1 } = {}) {
-  for (let attempt = 0; ; attempt++) {
-    const res = await fetch(url, { headers: BROWSER_HEADERS });
-    const raw = await res.text();
-    const contentType = res.headers.get("content-type") || "";
-    if (res.ok && contentType.includes("json")) {
-      return JSON.parse(raw);
+// Il firewall del sito (SiteGround Security) a volte mette in sfida ("sgcaptcha") solo il
+// percorso pretty-permalink /wp-json/... quando arriva da IP di datacenter (Render). La stessa
+// query passando da index.php (?rest_route=...) di norma non è coperta dalla stessa regola.
+function restRouteUrl(prettyUrl) {
+  const u = new URL(prettyUrl);
+  const route = u.pathname.replace(/^\/wp-json/, "");
+  const qs = new URLSearchParams(u.search);
+  qs.set("rest_route", route);
+  return `${u.origin}/?${qs.toString()}`;
+}
+
+async function fetchOnce(url) {
+  const res = await fetch(url, { headers: BROWSER_HEADERS });
+  const raw = await res.text();
+  const contentType = res.headers.get("content-type") || "";
+  if (res.ok && contentType.includes("json")) return JSON.parse(raw);
+  const err = new Error(`WP API ${res.status} (content-type "${contentType}"): ${raw.slice(0, 200)}`);
+  err.blocked = /sgcaptcha|captcha|challenge/i.test(raw);
+  throw err;
+}
+
+// Prova prima l'URL pretty-permalink; se viene bloccato (sfida/captcha) passa alla forma
+// ?rest_route= che di solito bypassa quella specifica regola del firewall. Ritenta con
+// backoff crescente perché la sfida è spesso temporanea (rate-limit, non ban permanente).
+async function fetchJson(prettyUrl, { retries = 3, delayMs = 4000 } = {}) {
+  const altUrl = restRouteUrl(prettyUrl);
+  let lastErr;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const url = attempt === 0 ? prettyUrl : altUrl;
+    try {
+      return await fetchOnce(url);
+    } catch (e) {
+      lastErr = e;
+      if (attempt >= retries) break;
+      await new Promise((r) => setTimeout(r, delayMs * (attempt + 1)));
     }
-    if (attempt >= retries) {
-      throw new Error(`WP API ${res.status} (content-type "${contentType}"): ${raw.slice(0, 200)}`);
-    }
-    // probabile blocco/challenge momentaneo: un breve retry spesso basta
-    await new Promise((r) => setTimeout(r, 2000));
   }
+  throw lastErr;
 }
 
 export async function fetchArticles({ afterISO, beforeISO, max = 20 }) {
   const url = `${SITE}/wp-json/wp/v2/posts?per_page=50&_embed=1&orderby=date&order=desc`
     + `&after=${encodeURIComponent(afterISO)}&before=${encodeURIComponent(beforeISO)}`;
-  const posts = await fetchJson(url, { retries: 2 });
+  const posts = await fetchJson(url);
 
   return posts
     .filter((p) => !p.link.includes("/en/"))          // solo italiano

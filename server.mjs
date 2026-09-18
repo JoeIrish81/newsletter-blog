@@ -14,16 +14,26 @@ const app = express();
 const PORT = process.env.PORT || 3200;
 
 let lastRun = null;   // { at, ok, output }
+let retryScheduled = false;   // evita retry multipli in cascata
 
 // Esegue la pipeline (--auto) come processo figlio e cattura l'esito.
-function runAuto() {
+// Se fallisce (es. il sito blocca temporaneamente l'IP di Render), pianifica UN retry
+// automatico dopo 2 ore: la sfida del firewall è spesso un rate-limit che nel frattempo si libera.
+function runAuto({ isRetry = false } = {}) {
   return new Promise((resolve) => {
-    console.log(`[${new Date().toISOString()}] Avvio job newsletter --auto`);
+    console.log(`[${new Date().toISOString()}] Avvio job newsletter --auto${isRetry ? " (retry)" : ""}`);
     exec("node newsletter.mjs --auto", { cwd: ROOT, timeout: 5 * 60 * 1000 }, (err, stdout, stderr) => {
       const output = (stdout || "") + (stderr || "");
       lastRun = { at: new Date().toISOString(), ok: !err, output: output.slice(-4000) };
       console.log(output);
-      if (err) console.error("Job fallito:", err.message);
+      if (err) {
+        console.error("Job fallito:", err.message);
+        if (!isRetry && !retryScheduled) {
+          retryScheduled = true;
+          console.log("Pianifico un retry automatico tra 2 ore.");
+          setTimeout(() => { retryScheduled = false; runAuto({ isRetry: true }); }, 2 * 60 * 60 * 1000);
+        }
+      }
       resolve(lastRun);
     });
   });
