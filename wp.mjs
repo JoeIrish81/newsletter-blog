@@ -29,14 +29,11 @@ function pickImage(post) {
  * @param {{afterISO:string, beforeISO:string, max?:number}} opts
  * @returns {Promise<Array<{slug,url,imageUrl,imageAlt,date,dateISO,title,blurb,categories}>>}
  */
-// Headers "da browser": alcuni host bloccano/servono pagine HTML alternative alle richieste
-// senza User-Agent riconoscibile (tipico dei server cloud come Render). Con un UA da browser
-// vero la richiesta passa come farebbe un visitatore normale.
+// User-Agent ONESTO: da ottobre 2026 SiteGround risponde 403 a chi si dichiara Chrome ma non
+// lo è (UA da browser + impronta TLS di Node = bot camuffato). Un UA dichiarato da script passa.
 const BROWSER_HEADERS = {
   Accept: "application/json",
-  "Accept-Language": "it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7",
-  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-  Referer: `${SITE}/`,
+  "User-Agent": "newsletter-blog/1.0 (+https://giovanniperilli.com)",
 };
 
 // Il firewall del sito (SiteGround Security) a volte mette in sfida ("sgcaptcha") solo il
