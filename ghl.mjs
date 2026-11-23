@@ -98,6 +98,7 @@ export async function createHtmlEmail({ token, locationId, title, html, updatedB
   return {
     templateId,
     reused,
-    previewUrl: `https://backend.leadconnectorhq.com/emails/schedule/preview/${locationId}/${templateId}`,
+    // i template si vedono su /emails/builder/preview; /emails/schedule/preview vale solo per le campagne
+    previewUrl: `https://backend.leadconnectorhq.com/emails/builder/preview/${locationId}/${templateId}`,
   };
 }
