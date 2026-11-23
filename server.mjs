@@ -89,6 +89,17 @@ app.get("/prepara", async (req, res) => {
   catch (e) { log({ prepara: "errore", messaggio: e.message }); res.status(500).json({ errore: e.message }); }
 });
 
+// Diagnosi senza effetti: prova solo a leggere il blog da Render (firewall SiteGround).
+app.get("/diagnosi", async (req, res) => {
+  if (!process.env.RUN_TOKEN || req.query.token !== process.env.RUN_TOKEN) return res.status(403).send("forbidden");
+  const { fetchArticles } = await import("./wp.mjs");
+  const fine = new Date(), inizio = new Date(); inizio.setDate(inizio.getDate() - 7);
+  try {
+    const a = await fetchArticles({ afterISO: inizio.toISOString().slice(0, 19), beforeISO: fine.toISOString().slice(0, 19), max: 5 });
+    res.json({ blog: "ok", articoli: a.map((x) => x.title) });
+  } catch (e) { res.status(502).json({ blog: "bloccato", errore: e.message.slice(0, 300), bloccatoDaFirewall: !!e.blocked }); }
+});
+
 // --- scheduler: venerdì 11:00 ora italiana ---
 // Interruttore: il giro automatico parte solo con NEWSLETTER_ATTIVA=1 (evita doppioni con le attività del PC)
 if (process.env.NEWSLETTER_ATTIVA === "1") cron.schedule("0 11 * * 5", () => preparaConRiprova(), { timezone: "Europe/Rome" });
