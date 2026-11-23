@@ -2,3 +2,6 @@
 node_modules/
 build/*.html
 build/*.table.html
+pulizia/*.json
+pulizia/*.txt
+pulizia/*.log

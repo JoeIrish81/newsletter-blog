@@ -185,7 +185,8 @@ async function contattiValidi() {
     for (const x of c) {
       const tags = (x.tags || []).map((t) => String(t).toLowerCase());
       const dndEmail = x.dndSettings?.Email?.status === "active";
-      if (x.email && x.validEmail !== false && !x.dnd && !dndEmail && !tags.includes("bounced")) out.push(x.id);
+      // «mai_aperto» = mai aperta un'email (pulizia del 23/11/2026, voluta da Giò): esclusi dalla newsletter
+      if (x.email && x.validEmail !== false && !x.dnd && !dndEmail && !tags.includes("bounced") && !tags.includes("mai_aperto")) out.push(x.id);
     }
     if (c.length < 500) break;
   }
